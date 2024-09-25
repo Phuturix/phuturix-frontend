@@ -11,7 +11,7 @@ export function OrderInput() {
   return (
     <div className="h-full flex flex-col text-base justify-start items-center">
       <SelectTypeTabs />
-      <div className="p-4 m-auto my-0 h-[570px] w-full">
+      <div className="m-auto my-0 h-[570px] w-full">
         <div className="bg-base-100 px-5 pb-5 rounded-b">
           <CurrencyInputGroup label="Trade Size" />
           <PrecRangeSlider />

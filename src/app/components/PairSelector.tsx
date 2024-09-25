@@ -20,10 +20,10 @@ export function PairSelector() {
               className="w-6 h-6 rounded-full z-20"
             />
           </div>
-          <span className="opacity-50 text-base">{`${token}-PERP`}</span>
+          <span className="opacity-90 text-base">{`${token}-PERP`}</span>
         </div>
         <div className="flex flex-col text-sm text-right font-sans">
-          <span className="">{lastPrice}</span>
+          <span className="opacity-90 text-base">{lastPrice}</span>
         </div>
       </div>
     </div>

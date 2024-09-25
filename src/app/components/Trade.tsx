@@ -21,12 +21,9 @@ export default function Trade() {
 
   return (
     <div className="sm:flex">
-        <div className="">
+        <div>
           <div className="">
             <PairSelector />
-          </div>
-          <div className="">
-            <PriceInfo />
           </div>
           <div className="">
             <OrderInput />
