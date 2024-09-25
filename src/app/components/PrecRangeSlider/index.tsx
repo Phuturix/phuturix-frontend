@@ -12,19 +12,19 @@ export default function PrecRangeSlider() {
       <input
         type="range"
         min={0}
-        max="100"
+        max="10"
         value={leverage}
         className="range range-xs range-info"
-        step="1"
+        step="0.1"
         onChange={e => setLeverage(e.target.value)}
       />
       <div className="flex w-full justify-between px-2 text-xs">
-        <span>0</span>
-        <span>20</span>
-        <span>40</span>
-        <span>60</span>
-        <span>80</span>
-        <span>100</span>
+        <span>1x</span>
+        <span>2x</span>
+        <span>3x</span>
+        <span>6x</span>
+        <span>8x</span>
+        <span>10x</span>
       </div>
     </div>
   );
