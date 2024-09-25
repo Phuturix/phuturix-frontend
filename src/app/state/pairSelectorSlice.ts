@@ -45,13 +45,10 @@ export const fetchBalances = createAsyncThunk<
   {
     state: RootState;
   }
->('pairSelector/fetchBalances', async (_arg, thunkAPI) => {
+>('', async (_arg, thunkAPI) => {
   const dispatch = thunkAPI.dispatch;
   const state = thunkAPI.getState();
 
-  if (state.pairSelector.address === '') {
-    return undefined;
-  }
 
   const rdt = getRdt();
   const gatewayApiClient = getGatewayApiClientOrThrow();

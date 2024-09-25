@@ -1,12 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { pairSelectorSlice } from './pairSelectorSlice';
 import { radixSlice } from './radixSlice';
 import { orderPerpSlice } from './orderPerpSlice';
+import { tokenInfoSlice } from './tokenInfo';
 
 export const store = configureStore({
   reducer: {
     radix: radixSlice.reducer,
-    pairSelector: pairSelectorSlice.reducer,
+    tokenInfo: tokenInfoSlice.reducer,
     perp: orderPerpSlice.reducer,
   },
 });

@@ -1,5 +1,4 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { RootState } from './store';
 export enum OrderPerpType {
   LONG = 'LONG',
   SHORT = 'SHORT',
@@ -34,7 +33,6 @@ export const orderPerpSlice = createSlice({
   },
 });
 
-// Get last price
-export const selectLastPrice = (state: RootState) => state.priceInfo.lastPrice;
+
 
 export const { updateValue, updateLeverage } = orderPerpSlice.actions;
