@@ -3,8 +3,8 @@
 import { useEffect } from 'react';
 import { OrderInput } from './OrderInput';
 import { PairSelector } from './PairSelector';
-import { PriceInfo } from './PriceInfo';
 import { useAppDispatch } from '../hooks';
+// import PriceChart from './Chart/PriceChart';
 
 export default function Trade() {
   const dispatch = useAppDispatch();
@@ -29,6 +29,7 @@ export default function Trade() {
             <OrderInput />
           </div>
         </div>
+        {/* <PriceChart /> */}
       </div>
   );
 }

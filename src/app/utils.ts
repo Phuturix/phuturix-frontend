@@ -161,17 +161,6 @@ export function roundTo(
 
 
 
-// Gets amount precision for each token traded on radixonradix.
-// Note: precision for price is different.
-export function getPrecision(input: string): number {
-  return (
-    {
-      XRD: 2,
-      XUSDC: 2,
-    }[input.toUpperCase()] || 2
-  );
-}
-
 export function formatNumericString(
   value: string,
   separator: string,
