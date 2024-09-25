@@ -18,7 +18,7 @@ const HelloTokenSection = () => {
 
   return (
     <>
-      <div className="heading-section">
+      <div className="bg">
         <h2>Get Your Hello Token</h2>
         <p className="head-text">
           Claim your <span className="hello-token-pink">Hello Token</span>
