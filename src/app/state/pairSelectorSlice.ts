@@ -2,14 +2,13 @@ import * as adex from "alphadex-sdk-js";
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { getGatewayApiClientOrThrow, getRdt } from "../subscriptions";
-import { setQueryParam } from "../utils";
+import { setQueryParam, updateIconIfNeeded } from "../utils";
 
 export const AMOUNT_MAX_DECIMALS = adex.AMOUNT_MAX_DECIMALS;
 
-export interface TokenInfo {
+export interface TokenInfo extends adex.TokenInfo {
   balance?: number;
-  address?: string;
-  name: string
+  decimals?: number;
 }
 
 export interface PairSelectorState {
@@ -27,7 +26,10 @@ interface SelectPairPayload {
 
 export const initalTokenInfo: TokenInfo = {
   address: "",
+  symbol: "",
   name: "",
+  iconUrl: "",
+  decimals: 8,
 };
 
 const initialState: PairSelectorState = {
@@ -55,8 +57,7 @@ export const fetchBalances = createAsyncThunk<
   const rdt = getRdt();
   const gatewayApiClient = getGatewayApiClientOrThrow();
   if (rdt && state.radix.walletData.accounts.length > 0) {
-    const tokens = [{ address: 'resource_rdx1t4upr78guuapv5ept7d7ptekk9mqhy605zgms33mcszen8l9fac8vf', name: "Wrapped USDC" },
-      { address: "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd", name: 'Radix'}];
+    const tokens = [state.pairSelector.token1, state.pairSelector.token2];
 
     for (let token of tokens) {
       // separate balance fetching try/catch for each token
@@ -102,11 +103,23 @@ export const pairSelectorSlice = createSlice({
       state.token1.decimals = adexState.currentPairInfo.token1MaxDecimals;
       state.token2.decimals = adexState.currentPairInfo.token2MaxDecimals;
 
-
+      // unpacking to avoid loosing balances info
+      state.token1 = updateIconIfNeeded({
+        ...state.token1,
+        ...adexState.currentPairInfo.token1,
+      });
+      state.token2 = updateIconIfNeeded({
+        ...state.token2,
+        ...adexState.currentPairInfo.token2,
+      });
 
       state.address = adexState.currentPairAddress;
       state.name = adexState.currentPairInfo.name;
-  
+      state.pairsList = adexState.pairsList.map((pair) => {
+        pair.token1 = updateIconIfNeeded(pair.token1);
+        pair.token2 = updateIconIfNeeded(pair.token2);
+        return pair;
+      });
     },
     selectPair: (
       state: PairSelectorState,

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { truncateWithPrecision } from '../utils';
-import SelectTypeTabs from './SelectTypeTabs';
+import {TokenSelector} from './TokenSelector';
 import { CurrencyInputGroup } from './CurrencyInputGroup';
 import PrecRangeSlider from './PrecRangeSlider';
 import SubmitButton from './CustomButton';
@@ -10,7 +10,7 @@ import { useAppSelector } from '@/hooks';
 export function OrderInput() {
   return (
     <div className="h-full flex flex-col text-base justify-start items-center">
-      <SelectTypeTabs />
+      <TokenSelector />
       <div className="m-auto my-0 h-[570px] w-full">
         <div className="bg-base-100 px-5 pb-5 rounded-b">
           <CurrencyInputGroup label="Trade Size" />

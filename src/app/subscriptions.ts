@@ -1,15 +1,21 @@
-import { Subscription } from 'rxjs';
+import { Subscription } from "rxjs";
 import {
   DataRequestBuilder,
   RadixDappToolkit,
-} from '@radixdlt/radix-dapp-toolkit';
-import { GatewayApiClient } from '@radixdlt/babylon-gateway-api-sdk';
+  RadixNetwork,
+  WalletDataStateAccount,
+} from "@radixdlt/radix-dapp-toolkit";
+import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
 import * as adex from "alphadex-sdk-js";
-import { radixSlice, WalletData } from './state/radixSlice';
-import { fetchBalances, pairSelectorSlice } from './state/pairSelectorSlice';
+import { radixSlice, WalletData } from "./state/radixSlice";
+import { fetchBalances } from "./state/pairSelectorSlice";
+import { pairSelectorSlice } from "./state/pairSelectorSlice";
+import { orderBookSlice } from "./state/orderBookSlice";
+import { updateCandles } from "./state/priceChartSlice";
 import { updatePriceInfo } from "./state/priceInfoSlice";
+import { AppStore } from "./state/store";
+import { rewardSlice } from "./state/rewardSlice";
 
-import { AppStore } from './state/store';
 
 export type RDT = ReturnType<typeof RadixDappToolkit>;
 
@@ -27,7 +33,7 @@ export function getGatewayApiClient() {
 export function getRdtOrThrow() {
   const rdt = getRdt();
   if (!rdt) {
-    throw new Error('RDT initialization failed');
+    throw new Error("RDT initialization failed");
   }
   return rdt;
 }
@@ -35,18 +41,33 @@ export function getRdtOrThrow() {
 export function getGatewayApiClientOrThrow() {
   const gatewayApiClient = getGatewayApiClient();
   if (!gatewayApiClient) {
-    throw new Error('GatewayApiClient initialization failed');
+    throw new Error("GatewayApiClient initialization failed");
   }
   return gatewayApiClient;
+}
+
+function setRdt(rdt: RDT) {
+  rdtInstance = rdt;
 }
 
 let subs: Subscription[] = [];
 
 export function initializeSubscriptions(store: AppStore) {
+  let networkId;
+  switch (process.env.NEXT_PUBLIC_NETWORK!) {
+    case "mainnet":
+      networkId = RadixNetwork.Mainnet;
+      break;
+    case "stokenet":
+      networkId = RadixNetwork.Stokenet;
+      break;
+    default:
+      networkId = RadixNetwork.Stokenet;
+  }
   rdtInstance = RadixDappToolkit({
     dAppDefinitionAddress: process.env.NEXT_PUBLIC_DAPP_DEFINITION_ADDRESS!,
-    networkId: 2,
-    featureFlags: ['ExperimentalMobileSupport'],
+    networkId,
+    featureFlags: ["ExperimentalMobileSupport"],
   });
   gatewayApiClient = GatewayApiClient.initialize(
     rdtInstance.gatewayApi.clientConfig
@@ -54,7 +75,30 @@ export function initializeSubscriptions(store: AppStore) {
   rdtInstance.walletApi.setRequestData(
     DataRequestBuilder.accounts().atLeast(1)
   );
-  adex.init(adex.ApiNetworkOptions[2]);
+  subs.push(
+    rdtInstance.walletApi.walletData$.subscribe((walletData: WalletData) => {
+      const data: WalletData = JSON.parse(JSON.stringify(walletData));
+      store.dispatch(radixSlice.actions.setWalletData(data));
+      // TODO: can we subscribe to balances from somewhere?
+      store.dispatch(fetchBalances());
+    })
+  );
+  setRdt(rdtInstance);
+  // TODO: "black" on the light theme
+  rdtInstance.buttonApi.setTheme("white");
+  let network;
+  switch (process.env.NEXT_PUBLIC_NETWORK!) {
+    case "mainnet":
+      network = adex.ApiNetworkOptions.indexOf("mainnet");
+      break;
+    case "stokenet":
+      network = adex.ApiNetworkOptions.indexOf("stokenet");
+      break;
+    default:
+      network = adex.ApiNetworkOptions.indexOf("stokenet");
+  }
+
+  adex.init(adex.ApiNetworkOptions[network]);
   subs.push(
     adex.clientState.stateChanged$.subscribe((newState) => {
       const serializedState: adex.StaticState = JSON.parse(
@@ -62,36 +106,27 @@ export function initializeSubscriptions(store: AppStore) {
       );
 
       store.dispatch(pairSelectorSlice.actions.updateAdex(serializedState));
+      store.dispatch(orderBookSlice.actions.updateAdex(serializedState));
+      store.dispatch(updateCandles(serializedState.currentPairCandlesList));
       store.dispatch(updatePriceInfo(serializedState));
-      // store.dispatch(accountHistorySlice.actions.updateAdex(serializedState));
-      // store.dispatch(orderInputSlice.actions.updateAdex(serializedState));
-      // store.dispatch(
-      //   rewardSlice.actions.updateTokensList(serializedState.tokensList)
-      // );
-      // store.dispatch(
-      //   rewardSlice.actions.updatePairsList(serializedState.pairsList)
-      // );
-      // store.dispatch(
-      //   orderBookSlice.actions.updateRecentTrades(
-      //     serializedState.currentPairTrades
-      //   )
-      // );
+      store.dispatch(
+        rewardSlice.actions.updateTokensList(serializedState.tokensList)
+      );
+      store.dispatch(
+        rewardSlice.actions.updatePairsList(serializedState.pairsList)
+      );
+      store.dispatch(
+        orderBookSlice.actions.updateRecentTrades(
+          serializedState.currentPairTrades
+        )
+      );
     })
   );
-  // subs.push(
-  //   rdtInstance.walletApi.walletData$.subscribe((walletData: WalletData) => {
-  //     const data: WalletData = JSON.parse(JSON.stringify(walletData));
-  //     store.dispatch(radixSlice.actions.setWalletData(data));
-  //     console.log(fetchBalances(), 'fetchBalances()')
-  //     store.dispatch(fetchBalances());
-  //   })
-  // );
 }
 
 export function unsubscribeAll() {
-  subs.forEach(sub => {
+  subs.forEach((sub) => {
     sub.unsubscribe();
   });
   subs = [];
 }
-

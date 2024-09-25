@@ -99,3 +99,28 @@ export function shortenWalletAddress(address: string): string {
   return `${firstPart}...${lastPart}`;
 }
 
+
+
+
+// Replace DEXTR iconUrl with coingecko hosted url.
+export function updateIconIfNeeded(token: adex.TokenInfo): TokenInfo {
+  const iconUrl =
+    token.symbol === "DEXTR"
+      ? // use asset from coingecko to prevent ipfs failure
+      "https://assets.coingecko.com/coins/images/34946/standard/DEXTRLogo.jpg"
+      : token.symbol === "RDK"
+        ? // fix wrong icon URL in metadata ofRDK on ledger, see https://t.me/radix_dlt/716425
+        "https://radket.shop/img/logo.svg"
+        : token.symbol === "EDG"
+          ? // use smaller version to save bandwidth
+          "coins/EDG-100x100.png"
+          : token.symbol === "HNY"
+            ? // use smaller version to save bandwidth
+            "coins/HNY-100x100.png"
+            : token.iconUrl;
+
+  return {
+    ...token,
+    iconUrl,
+  };
+}

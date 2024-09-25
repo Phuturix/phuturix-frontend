@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { OrderInput } from './OrderInput';
 import { PairSelector } from './PairSelector';
 import { useAppDispatch, useAppSelector } from '../hooks';
+import SelectTypeTabs from './SelectTypeTabs';
 
 export default function Trade() {
   const dispatch = useAppDispatch();
@@ -20,7 +21,7 @@ export default function Trade() {
     <div className="sm:flex">
         <div>
           <div className="">
-            <PairSelector />
+            <SelectTypeTabs />
           </div>
           <div className="">
             <OrderInput />
