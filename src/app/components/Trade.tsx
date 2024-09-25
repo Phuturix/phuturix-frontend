@@ -21,7 +21,6 @@ export default function Trade() {
 
   return (
     <div className="grow">
-      <div className="max-w-[1521px] m-auto border-x border-[#d0d0d01a]">
         <div className="grid-container">
           <div className="pairSelector">
             <PairSelector />
@@ -34,6 +33,5 @@ export default function Trade() {
           </div>
         </div>
       </div>
-    </div>
   );
 }

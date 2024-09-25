@@ -28,13 +28,7 @@ export function Navbar() {
   }, [dispatch]);
 
   return (
-    <nav
-      className={
-        'sticky top-0 sm:border-b-0 border-b-2 sm:border-none border-gray-800 sm:static ' +
-        'bg-base-200 sm:bg-transparent flex items-center justify-between w-full !h-[64px] !min-h-[64px] ' +
-        'z-[101]' // needed for main screen since divs use z-[100]
-      }
-    >
+    <nav className='container sticky top-0 sm:static bg-base-200 sm:bg-transparent flex items-center justify-between w-full !h-[64px] !min-h-[64px]'>
       <div className="flex h-full">
         <Logo />
       </div>
