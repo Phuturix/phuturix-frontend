@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useSendTransaction } from "../hooks/useSendTransaction";
 import { componentAddress } from "../constants";
-
+import { Button } from 'react-daisyui'
 export const ClaimHello = ({
   selectedAccount,
   enableButtons,
@@ -42,12 +42,12 @@ export const ClaimHello = ({
   };
 
   return (
-    <button
+    <Button
       id="get-hello-token"
       onClick={handleClaimToken}
       disabled={!selectedAccount || !enableButtons}
       className={loading ? "loading" : ""}>
       Claim Hello Token
-    </button>
+    </Button>
   );
 };

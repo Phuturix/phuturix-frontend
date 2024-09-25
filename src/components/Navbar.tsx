@@ -2,8 +2,7 @@ const Navbar = () => {
   return (
     <div id="navbar-container" className="bg-black">
       <div id="navbar">
-        <img src="src/assets/radix-logo-dark.png" alt="dev mode setup" />
-        <img src="src/assets/developer-img.png" alt="dev mode setup" />
+       <button className="btn btn-active">Default</button>
       </div>
 
       <div id="connect-btn">
