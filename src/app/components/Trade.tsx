@@ -20,15 +20,15 @@ export default function Trade() {
   }, [dispatch]);
 
   return (
-    <div className="grow">
-        <div className="grid-container">
-          <div className="pairSelector">
+    <div className="sm:flex">
+        <div className="">
+          <div className="">
             <PairSelector />
           </div>
-          <div className="priceInfo">
+          <div className="">
             <PriceInfo />
           </div>
-          <div className="orderInput max-[850px]:p-5 max-[700px]:p-0 ">
+          <div className="">
             <OrderInput />
           </div>
         </div>
