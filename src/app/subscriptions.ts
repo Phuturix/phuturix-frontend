@@ -106,7 +106,7 @@ export function initializeSubscriptions(store: AppStore) {
       );
 
       store.dispatch(pairSelectorSlice.actions.updateAdex(serializedState));
-      store.dispatch(orderBookSlice.actions.updateAdex(serializedState));
+      // store.dispatch(orderBookSlice.actions.updateAdex(serializedState));
       store.dispatch(updateCandles(serializedState.currentPairCandlesList));
       store.dispatch(updatePriceInfo(serializedState));
       store.dispatch(

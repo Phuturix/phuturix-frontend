@@ -56,8 +56,21 @@ export const fetchBalances = createAsyncThunk<
 
   const rdt = getRdt();
   const gatewayApiClient = getGatewayApiClientOrThrow();
-  if (rdt && state.radix.walletData.accounts.length > 0) {
-    const tokens = [state.pairSelector.token1, state.pairSelector.token2];
+  //remove hardoced data
+  if (rdt) {
+    const t1= { 
+      address: "resource_rdx1t4upr78guuapv5ept7d7ptekk9mqhy605zgms33mcszen8l9fac8vf",
+      decimals: 5,
+      iconUrl:  "https://assets.instabridge.io/tokens/icons/xUSDC.png",
+      name : "Wrapped USDC"
+    }
+    const t2 ={
+      address: "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd",
+      decimals: 8,
+      iconUrl: "https://assets.radixdlt.com/icons/icon-xrd-32x32.png",
+      name: "Radix"
+    }
+    const tokens = [t1, t2];
 
     for (let token of tokens) {
       // separate balance fetching try/catch for each token
