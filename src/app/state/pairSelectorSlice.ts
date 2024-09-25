@@ -16,7 +16,6 @@ export interface PairSelectorState {
   address: string;
   token1: TokenInfo;
   token2: TokenInfo;
-  pairsList: adex.PairInfo[];
 }
 
 interface SelectPairPayload {
@@ -37,7 +36,6 @@ const initialState: PairSelectorState = {
   address: "",
   token1: { ...initalTokenInfo },
   token2: { ...initalTokenInfo },
-  pairsList: [],
 };
 
 export const fetchBalances = createAsyncThunk<
@@ -118,11 +116,6 @@ export const pairSelectorSlice = createSlice({
 
       state.address = adexState.currentPairAddress;
       state.name = adexState.currentPairInfo.name;
-      state.pairsList = adexState.pairsList.map((pair) => {
-        pair.token1 = pair.token1
-        pair.token2 = pair.token2
-        return pair;
-      });
     },
     selectPair: (
       state: PairSelectorState,

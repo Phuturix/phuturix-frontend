@@ -92,9 +92,7 @@ export const rewardSlice = createSlice({
     updateTokensList: (state, action: PayloadAction<adex.TokenInfo[]>) => {
       state.tokensList = action.payload;
     },
-    updatePairsList: (state, action: PayloadAction<adex.PairInfo[]>) => {
-      state.pairsList = action.payload;
-    },
+ 
     resetRewardState: (state) => {
       state.recieptIds = [];
       state.rewardData = {
@@ -216,9 +214,7 @@ export const fetchReciepts = createAsyncThunk<
     });
   // load set of orderreceiptAddresses from adex
   let orderReceiptAddresses: Set<string> = new Set();
-  pairsList.forEach((pairInfo) =>
-    orderReceiptAddresses.add(pairInfo.orderReceiptAddress)
-  );
+ 
   // iterate through all receipts and extract receiptIdentifier
   const receipts: string[] = [];
   (items as NonFungibleResource[]).forEach((item) => {

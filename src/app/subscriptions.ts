@@ -113,9 +113,6 @@ export function initializeSubscriptions(store: AppStore) {
         rewardSlice.actions.updateTokensList(serializedState.tokensList)
       );
       store.dispatch(
-        rewardSlice.actions.updatePairsList(serializedState.pairsList)
-      );
-      store.dispatch(
         orderBookSlice.actions.updateRecentTrades(
           serializedState.currentPairTrades
         )
