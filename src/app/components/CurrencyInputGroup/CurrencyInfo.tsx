@@ -30,7 +30,7 @@ export default function CurrencyInfo({
       {title}:{' '}
       {balance === 0
         ? 0
-        : truncateWithPrecision(balance, getPrecision(currency))}{' '}
+        : truncateWithPrecision(balance, 2)}{' '}
       {currency}
     </button>
   );

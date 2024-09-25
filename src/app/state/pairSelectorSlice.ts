@@ -57,6 +57,7 @@ export const fetchBalances = createAsyncThunk<
 
   const rdt = getRdt();
   const gatewayApiClient = getGatewayApiClientOrThrow();
+  console.log(state.radix.walletData.accounts, 'state.radix.walletData.accounts')
   if (rdt && state.radix.walletData.accounts.length > 0) {
     const tokens = [state.pairSelector.token1, state.pairSelector.token2];
 
