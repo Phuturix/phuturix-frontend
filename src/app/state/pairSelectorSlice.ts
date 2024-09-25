@@ -4,7 +4,6 @@ import { RootState } from "./store";
 import { getGatewayApiClientOrThrow, getRdt } from "../subscriptions";
 import { setQueryParam } from "../utils";
 
-export const AMOUNT_MAX_DECIMALS = adex.AMOUNT_MAX_DECIMALS;
 
 export interface TokenInfo extends adex.TokenInfo {
   balance?: number;
@@ -54,7 +53,7 @@ export const fetchBalances = createAsyncThunk<
 
   const rdt = getRdt();
   const gatewayApiClient = getGatewayApiClientOrThrow();
-  //remove hardoced data
+  //TODO-remove hardoced data
   if (rdt) {
     const t1= { 
       address: "resource_rdx1t4upr78guuapv5ept7d7ptekk9mqhy605zgms33mcszen8l9fac8vf",

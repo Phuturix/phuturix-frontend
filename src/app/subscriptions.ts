@@ -14,7 +14,6 @@ import { orderBookSlice } from "./state/orderBookSlice";
 import { updateCandles } from "./state/priceChartSlice";
 import { updatePriceInfo } from "./state/priceInfoSlice";
 import { AppStore } from "./state/store";
-import { rewardSlice } from "./state/rewardSlice";
 
 
 export type RDT = ReturnType<typeof RadixDappToolkit>;
@@ -53,17 +52,7 @@ function setRdt(rdt: RDT) {
 let subs: Subscription[] = [];
 
 export function initializeSubscriptions(store: AppStore) {
-  let networkId;
-  switch (process.env.NEXT_PUBLIC_NETWORK!) {
-    case "mainnet":
-      networkId = RadixNetwork.Mainnet;
-      break;
-    case "stokenet":
-      networkId = RadixNetwork.Stokenet;
-      break;
-    default:
-      networkId = RadixNetwork.Stokenet;
-  }
+  let networkId = RadixNetwork.Stokenet;
   rdtInstance = RadixDappToolkit({
     dAppDefinitionAddress: process.env.NEXT_PUBLIC_DAPP_DEFINITION_ADDRESS!,
     networkId,
