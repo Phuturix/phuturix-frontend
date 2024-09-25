@@ -49,6 +49,8 @@ function WalletSelector() {
     state => state.radix
   );
 
+  console.log(walletData, 'walletData')
+
   const menuRef = useRef<HTMLDivElement>(null);
   const iconRef = useRef<HTMLImageElement>(null);
 

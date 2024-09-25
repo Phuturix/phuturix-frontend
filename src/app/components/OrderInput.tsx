@@ -37,6 +37,7 @@ function EstimatedTotalOrQuantity() {
       {totalValue && (
         <>
           <p className="grow text-left">Total:</p>
+          //TODO - update total val
           <p className="">
             ~ {totalValue} {symbol}
           </p>
