@@ -1,4 +1,3 @@
-import { TokenInfo } from "alphadex-sdk-js";
 
 export function getLocaleSeparators(): {
   decimalSeparator: string;
@@ -40,14 +39,6 @@ export function formatNumericString(
     fraction = fraction.substring(0, scale);
   }
   return fraction ? `${whole}${separator}${fraction}` : whole;
-}
-
-// Define an enum for the operating system types
-export enum OperatingSystem {
-  MAC = 'MAC',
-  WINDOWS = 'WINDOWS',
-  LINUX = 'LINUX',
-  UNKNOWN = 'UNKNOWN',
 }
 
 export function truncateWithPrecision(num: number, precision: number): number {
