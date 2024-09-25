@@ -56,6 +56,7 @@ export function initializeSubscriptions(store: AppStore) {
     rdtInstance.walletApi.walletData$.subscribe((walletData: WalletData) => {
       const data: WalletData = JSON.parse(JSON.stringify(walletData));
       store.dispatch(radixSlice.actions.setWalletData(data));
+      console.log(fetchBalances(), 'fetchBalances()')
       store.dispatch(fetchBalances());
     })
   );

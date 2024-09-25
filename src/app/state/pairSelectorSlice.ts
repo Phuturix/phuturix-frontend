@@ -17,8 +17,7 @@ export interface TokenInfo {
 export interface PairSelectorState {
   name: string;
   address: string;
-  token1: TokenInfo;
-  token2: TokenInfo;
+  token: TokenInfo;
 }
 
 interface SelectPairPayload {
@@ -27,7 +26,7 @@ interface SelectPairPayload {
 }
 
 export const initialTokenInfo: TokenInfo = {
-  address: '',
+  address: 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc',
   symbol: '',
   name: '',
   iconUrl: '',
@@ -37,8 +36,7 @@ export const initialTokenInfo: TokenInfo = {
 const initialState: PairSelectorState = {
   name: '',
   address: '',
-  token1: { ...initialTokenInfo },
-  token2: { ...initialTokenInfo },
+  token: { ...initialTokenInfo },
 };
 
 export const fetchBalances = createAsyncThunk<
@@ -59,23 +57,20 @@ export const fetchBalances = createAsyncThunk<
   const gatewayApiClient = getGatewayApiClientOrThrow();
   console.log(state.radix.walletData.accounts, 'state.radix.walletData.accounts')
   if (rdt && state.radix.walletData.accounts.length > 0) {
-    const tokens = [state.pairSelector.token1, state.pairSelector.token2];
+    const token = state.pairSelector.token;
 
-    for (let token of tokens) {
+    // for (let token of tokens) {
       // separate balance fetching try/catch for each token
       try {
-        let response;
-        if (token.address) {
-          response =
-            await gatewayApiClient.state.innerClient.entityFungibleResourceVaultPage(
+        let response = await gatewayApiClient.state.innerClient.entityFungibleResourceVaultPage(
               {
                 stateEntityFungibleResourceVaultsPageRequest: {
                   address: state.radix.selectedAccount?.address,
-                  resource_address: token.address,
+                  resource_address: token.address || 'resource_tdx_2_1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxtfd2jc',
                 },
               }
             );
-        }
+      
         // if there are no items in response, set the balance to 0
         const balance = parseFloat(response?.items[0]?.amount || '0');
         dispatch(pairSelectorSlice.actions.setBalance({ balance, token }));
@@ -83,7 +78,7 @@ export const fetchBalances = createAsyncThunk<
         dispatch(pairSelectorSlice.actions.setBalance({ balance: 0, token }));
         throw new Error('Error getting data from Radix gateway');
       }
-    }
+    // }
   }
 
   return undefined;
@@ -100,22 +95,17 @@ export const pairSelectorSlice = createSlice({
       action: PayloadAction<{ token: TokenInfo; balance: number }>
     ) => {
       const { token, balance } = action.payload;
-      if (token.address === state.token1.address) {
-        state.token1 = { ...state.token1, balance };
-      } else if (token.address === state.token2.address) {
-        state.token2 = { ...state.token2, balance };
-      }
+     
+        state.token = { ...state.token, balance };
     },
     resetBalances: (state: PairSelectorState) => {
-      delete state.token1.balance;
-      delete state.token2.balance;
+      delete state.token.balance;
     },
   },
 
   extraReducers: builder => {
     builder.addCase(fetchBalances.rejected, (state, action) => {
-      state.token1.balance = undefined;
-      state.token2.balance = undefined;
+      state.token.balance = undefined;
       console.error(
         'pairSelector/fetchBalances rejected:',
         action.error.message

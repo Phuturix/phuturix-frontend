@@ -23,10 +23,6 @@ export default function RootLayout({
     };
   }, []);
 
-  // TODO: after MVP remove "use client", fix all as many Components as possible
-  // to be server components for better SSG and SEO
-  // and use metadata https://nextjs.org/docs/app/building-your-application/upgrading/app-router-migration#step-2-creating-a-root-layout
-
   return (
     <html lang="en" data-theme="dark" className="scrollbar-none">
       <head>
