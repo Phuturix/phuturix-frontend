@@ -3,7 +3,7 @@ import { Logo } from './Logo';
 
 export function Footer() {
   return (
-    <footer className="bg-base-300 text-xs w-fill">
+    <footer className="sticky bottom-0 text-xs w-fill">
       <div className="flex flex-wrap items-center justify-center container pt-4 pb-8">
         <div className="flex col flex-wrap">
           <Logo />

@@ -28,7 +28,7 @@ export function Navbar() {
   }, [dispatch]);
 
   return (
-    <nav className='container sticky top-0 sm:static bg-base-200 sm:bg-transparent flex items-center justify-between w-full !h-[64px] !min-h-[64px]'>
+    <nav className='sticky top-0 sm:static flex items-center justify-between w-full !h-[64px] !min-h-[64px]'>
       <div className="flex h-full">
         <Logo />
       </div>

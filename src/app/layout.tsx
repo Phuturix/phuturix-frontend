@@ -43,9 +43,9 @@ function AppBody({ children }: { children: React.ReactNode }) {
   return (
     <body>
       <DToaster toastPosition="top-center" />
-      <div className="h-screen overflow-x-hidden min-h-[100vh] max-w-[100vw]">
-        <div className="flex justify-center">
-          <div className="container">
+      <div className="min-h-screen">
+        <div className="max-w-[1550px] mx-auto px-4 w-full">
+
           <Navbar />
           {
             // When using useSearchParams from next/navigation we need to
@@ -56,7 +56,6 @@ function AppBody({ children }: { children: React.ReactNode }) {
           <Suspense>{children}</Suspense>
           <Footer />
           </div>
-        </div>
       </div>
     </body>
   );
