@@ -75,10 +75,7 @@ export const fetchBalances = createAsyncThunk<
     for (let token of tokens) {
       // separate balance fetching try/catch for each token
       try {
-        let response;
-        if (token.address) {
-          response =
-            await gatewayApiClient.state.innerClient.entityFungibleResourceVaultPage(
+        let response = await gatewayApiClient.state.innerClient.entityFungibleResourceVaultPage(
               {
                 stateEntityFungibleResourceVaultsPageRequest: {
                   address: state.radix.selectedAccount?.address,
@@ -87,10 +84,10 @@ export const fetchBalances = createAsyncThunk<
                 },
               }
             );
-        }
+        // }
         // if there are no items in response, set the balance to 0
         const balance = parseFloat(response?.items[0]?.amount || "0");
-        dispatch(pairSelectorSlice.actions.setBalance({ balance: 100, token }));
+        dispatch(pairSelectorSlice.actions.setBalance({ balance: balance, token }));
       } catch (error) {
         // dispatch(pairSelectorSlice.actions.setBalance({ balance: 0, token }));
         throw new Error("Error getting data from Radix gateway");
