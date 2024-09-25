@@ -11,14 +11,10 @@ export function CurrencyInputGroup({
 }: CurrencyInputGroupProps): JSX.Element | null {
   return (
     <div className="pt-5 relative">
-      {/* {!inputValidation.valid && (
-        <InputTooltip message={inputValidation.message} />
-      )} */}
       <div className="w-full flex content-between">
         <Label label={label} />
         <CurrencyInfo title="Max" currency="XTR" />
       </div>
-      <CurrencyInput currency="XTR" />
     </div>
   );
 }
