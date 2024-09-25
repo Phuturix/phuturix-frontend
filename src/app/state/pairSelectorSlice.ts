@@ -2,7 +2,7 @@ import * as adex from "alphadex-sdk-js";
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { getGatewayApiClientOrThrow, getRdt } from "../subscriptions";
-import { setQueryParam, updateIconIfNeeded } from "../utils";
+import { setQueryParam } from "../utils";
 
 export const AMOUNT_MAX_DECIMALS = adex.AMOUNT_MAX_DECIMALS;
 
@@ -103,21 +103,11 @@ export const pairSelectorSlice = createSlice({
       state.token1.decimals = adexState.currentPairInfo.token1MaxDecimals;
       state.token2.decimals = adexState.currentPairInfo.token2MaxDecimals;
 
-      // unpacking to avoid loosing balances info
-      state.token1 = updateIconIfNeeded({
-        ...state.token1,
-        ...adexState.currentPairInfo.token1,
-      });
-      state.token2 = updateIconIfNeeded({
-        ...state.token2,
-        ...adexState.currentPairInfo.token2,
-      });
-
       state.address = adexState.currentPairAddress;
       state.name = adexState.currentPairInfo.name;
       state.pairsList = adexState.pairsList.map((pair) => {
-        pair.token1 = updateIconIfNeeded(pair.token1);
-        pair.token2 = updateIconIfNeeded(pair.token2);
+        pair.token1 = pair.token1
+        pair.token2 = pair.token2
         return pair;
       });
     },
