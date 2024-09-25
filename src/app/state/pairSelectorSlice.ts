@@ -4,6 +4,7 @@ import { RootState } from "./store";
 import { getGatewayApiClientOrThrow, getRdt } from "../subscriptions";
 import { setQueryParam } from "../utils";
 
+export const AMOUNT_MAX_DECIMALS = adex.AMOUNT_MAX_DECIMALS;
 
 export interface TokenInfo extends adex.TokenInfo {
   balance?: number;
@@ -53,19 +54,21 @@ export const fetchBalances = createAsyncThunk<
 
   const rdt = getRdt();
   const gatewayApiClient = getGatewayApiClientOrThrow();
-  //TODO-remove hardoced data
+  //remove hardoced data
   if (rdt) {
     const t1= { 
       address: "resource_rdx1t4upr78guuapv5ept7d7ptekk9mqhy605zgms33mcszen8l9fac8vf",
       decimals: 5,
       iconUrl:  "https://assets.instabridge.io/tokens/icons/xUSDC.png",
-      name : "Wrapped USDC"
+      name : "Wrapped USDC",
+      symbol: 'USDC'
     }
     const t2 ={
       address: "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd",
       decimals: 8,
       iconUrl: "https://assets.radixdlt.com/icons/icon-xrd-32x32.png",
-      name: "Radix"
+      name: "Radix",
+      symbol: 'RTD'
     }
     const tokens = [t1, t2];
 
@@ -87,9 +90,9 @@ export const fetchBalances = createAsyncThunk<
         }
         // if there are no items in response, set the balance to 0
         const balance = parseFloat(response?.items[0]?.amount || "0");
-        dispatch(pairSelectorSlice.actions.setBalance({ balance, token }));
+        dispatch(pairSelectorSlice.actions.setBalance({ balance: 100, token }));
       } catch (error) {
-        dispatch(pairSelectorSlice.actions.setBalance({ balance: 0, token }));
+        // dispatch(pairSelectorSlice.actions.setBalance({ balance: 0, token }));
         throw new Error("Error getting data from Radix gateway");
       }
     }

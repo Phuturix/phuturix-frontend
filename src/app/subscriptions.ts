@@ -10,7 +10,6 @@ import * as adex from "alphadex-sdk-js";
 import { radixSlice, WalletData } from "./state/radixSlice";
 import { fetchBalances } from "./state/pairSelectorSlice";
 import { pairSelectorSlice } from "./state/pairSelectorSlice";
-import { orderBookSlice } from "./state/orderBookSlice";
 import { updateCandles } from "./state/priceChartSlice";
 import { updatePriceInfo } from "./state/priceInfoSlice";
 import { AppStore } from "./state/store";
@@ -73,19 +72,7 @@ export function initializeSubscriptions(store: AppStore) {
     })
   );
   setRdt(rdtInstance);
-  // TODO: "black" on the light theme
-  rdtInstance.buttonApi.setTheme("white");
-  let network;
-  switch (process.env.NEXT_PUBLIC_NETWORK!) {
-    case "mainnet":
-      network = adex.ApiNetworkOptions.indexOf("mainnet");
-      break;
-    case "stokenet":
-      network = adex.ApiNetworkOptions.indexOf("stokenet");
-      break;
-    default:
-      network = adex.ApiNetworkOptions.indexOf("stokenet");
-  }
+  let network = adex.ApiNetworkOptions.indexOf("stokenet");
 
   adex.init(adex.ApiNetworkOptions[network]);
   subs.push(
@@ -98,14 +85,6 @@ export function initializeSubscriptions(store: AppStore) {
       // store.dispatch(orderBookSlice.actions.updateAdex(serializedState));
       store.dispatch(updateCandles(serializedState.currentPairCandlesList));
       store.dispatch(updatePriceInfo(serializedState));
-      store.dispatch(
-        rewardSlice.actions.updateTokensList(serializedState.tokensList)
-      );
-      store.dispatch(
-        orderBookSlice.actions.updateRecentTrades(
-          serializedState.currentPairTrades
-        )
-      );
     })
   );
 }
