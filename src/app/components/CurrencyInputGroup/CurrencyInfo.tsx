@@ -1,7 +1,7 @@
 import { useAppSelector } from '@/hooks';
 import { orderPerpSlice } from '@/state/orderPerpSlice';
 import { store } from '@/state/store';
-import { getPrecision, truncateWithPrecision } from '@/utils';
+import { truncateWithPrecision } from '@/utils';
 
 interface CurrencyInfoProps {
   disabled?: boolean;
