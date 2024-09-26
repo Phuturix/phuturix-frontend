@@ -1,11 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import type { TypedUseSelectorHook } from "react-redux";
 import type { RootState, AppDispatch } from "./state/store";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  getLocalStoragePaginationValue,
-  setLocalStoragePaginationValue,
-} from "@/utils";
+import {  useEffect, useState } from "react";
 
 // https://redux-toolkit.js.org/tutorials/typescript#define-typed-hooks
 export const useAppDispatch: () => AppDispatch = useDispatch;
