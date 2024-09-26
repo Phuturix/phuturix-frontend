@@ -1,7 +1,11 @@
-import { useAppSelector } from "@/hooks";
+import { useAppDispatch, useAppSelector } from "@/hooks";
 import { getRdtOrThrow } from "../../subscriptions";
+import { orderPerpSlice } from "@/state/OrderPerpSlice";
+import { Side } from "@/lib/types";
 
-export async function submitOrder() {
+export async function submitOrder(leverage: number, price: number, position: Side, margin: number) {
+  const totalPosValue = leverage * margin;
+  const pos = position === Side.LONG ? "long" : "short";
   const rdt = getRdtOrThrow();
   const account_address =
     "account_tdx_2_128ncus8jayt2yc8wkkk6643yd6ragd7j80mycvrfajll55u2hx3k5d";
@@ -9,10 +13,10 @@ export async function submitOrder() {
       Address("component_tdx_2_1cqg6h0xmp6p3h529mq8fnr9m0lvlaaqaam7eec7w3ly7hlmscn675z")
       "add_position"
       Address("${account_address}")
-      "long"
-      Decimal("3")
-      Decimal("0.5")
-      Decimal("1")
+      "${pos}"
+      Decimal("${leverage}")
+      Decimal("${price}")
+      Decimal("${totalPosValue}")
   ;
   CALL_METHOD
       Address("${account_address}")
@@ -21,7 +25,6 @@ export async function submitOrder() {
       Enum<0u8>()
   ;`;
 
-  console.log(manifest);
   // Send manifest to extension for signing
   const result = await rdt.walletApi.sendTransaction({
     transactionManifest: manifest,
@@ -32,10 +35,12 @@ export async function submitOrder() {
 }
 
 export default function SubmitButton() {
-  const { type } = useAppSelector((state: { perp: any }) => state.perp);
+  const dispatch = useAppDispatch();
+   const { margin, leverage, price, type} = useAppSelector(state => state.perp);
   const { isConnected } = useAppSelector(
     (state: { radix: { isConnected: boolean } }) => state.radix
   );
+
 
   return (
     <button
@@ -52,7 +57,8 @@ export default function SubmitButton() {
 
         e.stopPropagation();
         console.log("submit");
-        submitOrder();
+        dispatch(orderPerpSlice.actions.updateStatusLoading(true))
+        price && submitOrder(leverage, price, type, margin);
       }}
     >
       <div className="flex justify-center items-center">
