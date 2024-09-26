@@ -10,7 +10,6 @@ import { radixSlice, WalletData } from "./state/radixSlice";
 import { fetchBalances } from "./state/pairSelectorSlice";
 import { pairSelectorSlice } from "./state/pairSelectorSlice";
 import { orderBookSlice } from "./state/orderBookSlice";
-import { updatePriceInfo } from "./state/priceInfoSlice";
 import { AppStore } from "./state/store";
 
 export type RDT = ReturnType<typeof RadixDappToolkit>;
@@ -103,13 +102,6 @@ export function initializeSubscriptions(store: AppStore) {
 
       store.dispatch(pairSelectorSlice.actions.updateAdex(serializedState));
       store.dispatch(orderBookSlice.actions.updateAdex(serializedState));
-      store.dispatch(updatePriceInfo(serializedState));
-      store.dispatch(
-        rewardSlice.actions.updateTokensList(serializedState.tokensList)
-      );
-      store.dispatch(
-        rewardSlice.actions.updatePairsList(serializedState.pairsList)
-      );
       store.dispatch(
         orderBookSlice.actions.updateRecentTrades(
           serializedState.currentPairTrades

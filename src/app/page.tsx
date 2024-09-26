@@ -5,7 +5,6 @@ import { useSearchParams } from "next/navigation";
 
 import { OrderInput } from "@/components/OrderInput";
 import { PairSelector } from "@/components/PairSelector";
-import { PriceInfo } from "@/components/PriceInfo";
 import { fetchBalances, selectPair } from "@/state/pairSelectorSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 // import {
@@ -55,9 +54,6 @@ export default function Trade() {
         <div className="grid-container">
           <div className="pairSelector">
             <PairSelector />
-          </div>
-          <div className="priceInfo">
-            <PriceInfo />
           </div>
           <div className="orderInput max-[850px]:p-5 max-[700px]:p-0 ">
             <OrderInput />

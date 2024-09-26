@@ -1,4 +1,0 @@
-.sized-columns {
-  display: grid;
-  grid-template-columns: 10% repeat(3, 1fr);
-}

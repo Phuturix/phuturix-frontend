@@ -3,10 +3,11 @@ import { displayNumber } from '../utils';
 import { useAppSelector } from '../hooks';
 
 export function PairSelector() {
-  const priceInfo = useAppSelector(state => state.priceInfo);
+  //TODO upadte
+  const priceInfo = 1.2
   const noDigits = 4;
   const fixedDecimals = 3;
-  const lastPrice = displayNumber(priceInfo.lastPrice, noDigits, fixedDecimals);
+  const lastPrice = displayNumber(priceInfo, noDigits, fixedDecimals);
   const token = 'XTR';
 
   return (
