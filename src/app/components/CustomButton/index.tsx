@@ -58,7 +58,7 @@ export default function SubmitButton() {
         e.stopPropagation();
         console.log("submit");
         dispatch(orderPerpSlice.actions.updateStatusLoading(true))
-        price && submitOrder(leverage, price, type, margin);
+        price && margin && submitOrder(leverage, price, type, margin);
       }}
     >
       <div className="flex justify-center items-center">
