@@ -3,7 +3,6 @@ import {
   DataRequestBuilder,
   RadixDappToolkit,
   RadixNetwork,
-  WalletDataStateAccount,
 } from "@radixdlt/radix-dapp-toolkit";
 import { GatewayApiClient } from "@radixdlt/babylon-gateway-api-sdk";
 import * as adex from "alphadex-sdk-js";
