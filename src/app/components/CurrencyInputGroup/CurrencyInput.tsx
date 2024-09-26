@@ -1,17 +1,16 @@
-import { ValidationResult } from '@/types';
+// import { ValidationResult } from '@/types';
 import { useAppSelector } from '@/hooks';
-import { orderPerpSlice } from '@/state/orderPerpSlice';
+import { orderPerpSlice } from '@/state/OrderPerpSlice';
 import { store } from '@/state/store';
 import { formatNumericString, getLocaleSeparators } from '@/utils';
 import { ChangeEvent } from 'react';
 interface CurrencyInputProps {
   currency: string;
-  inputValidation?: ValidationResult;
+  maxValue?: number;
 }
 
 export default function CurrencyInput({
   currency,
-  inputValidation,
 }: CurrencyInputProps): JSX.Element | null {
   const { decimalSeparator } = getLocaleSeparators();
   const scale = 8;
@@ -20,7 +19,7 @@ export default function CurrencyInput({
     store.dispatch(orderPerpSlice.actions.updateValue(value));
   };
 
-  const max = useAppSelector(state => state.perp.balance);
+  const max = useAppSelector(state => state.pairSelector.token1.balance);
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let { value } = e.target;
     value = value.replace(/,/g, decimalSeparator).replace(/-/g, '');
