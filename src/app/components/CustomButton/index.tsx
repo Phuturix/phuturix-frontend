@@ -4,7 +4,7 @@ import { getRdtOrThrow } from "../../subscriptions";
 export async function submitOrder() {
   const rdt = getRdtOrThrow();
   const account_address =
-    "account_tdx_2_12yas0232myy5vv60hepjznf4m3khjlpyuu7v2ckvtd6337razwwcru";
+    "account_tdx_2_128ncus8jayt2yc8wkkk6643yd6ragd7j80mycvrfajll55u2hx3k5d";
   const manifest = `CALL_METHOD
       Address("component_tdx_2_1cqg6h0xmp6p3h529mq8fnr9m0lvlaaqaam7eec7w3ly7hlmscn675z")
       "add_position"
@@ -36,6 +36,7 @@ export default function SubmitButton() {
   const { isConnected } = useAppSelector(
     (state: { radix: { isConnected: boolean } }) => state.radix
   );
+
   return (
     <button
       className={`w-full h-[40px] p-3 my-6 rounded ${
@@ -52,24 +53,6 @@ export default function SubmitButton() {
         e.stopPropagation();
         console.log("submit");
         submitOrder();
-
-        // DToads.promise(
-        //   async () => {
-        //     const action = await dispatch(submitOrder());
-        //     // if (!action.type.endsWith('fulfilled')) {
-        //     //   // Transaction was not fulfilled (e.g. userRejected or userCanceled)
-        //     //   throw new Error('Transaction failed due to user action.');
-        //     // } else if ((action.payload as any)?.status === 'ERROR') {
-        //     //   // Transaction was fulfilled but failed (e.g. submitted onchain failure)
-        //     //   throw new Error('Transaction failed onledger');
-        //     // }
-        //     // dispatch(orderInputSlice.actions.resetUserInput());
-        //     // dispatch(fetchBalances());
-        //   },
-        //   "submitting order", // Loading message
-        //   "order submitted", // success message
-        //   "failed to submit order" // error message
-        // );
       }}
     >
       <div className="flex justify-center items-center">
