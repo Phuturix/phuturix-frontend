@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import { pairSelectorSlice } from "./pairSelectorSlice";
 import { orderBookSlice } from "./orderBookSlice";
 import { radixSlice } from "./radixSlice";
-import { teamSlice } from "./teamSlice";
 import { orderPerpSlice } from "./OrderPerpSlice";
 
 export const store = configureStore({
@@ -11,7 +10,6 @@ export const store = configureStore({
     pairSelector: pairSelectorSlice.reducer,
     orderBook: orderBookSlice.reducer,
     perp: orderPerpSlice.reducer,
-    teamSlice: teamSlice.reducer,
   },
 });
 

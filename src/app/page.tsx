@@ -1,27 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-
 import { OrderInput } from "@/components/OrderInput";
 import { PairSelector } from "@/components/PairSelector";
 import { fetchBalances, selectPair } from "@/state/pairSelectorSlice";
-import { useAppDispatch, useAppSelector } from "@/hooks";
-// import {
-//   fetchAccountHistory,
-//   fetchAccountHistoryAllPairs,
-// } from "@/state/accountHistorySlice";
-
+import { fetchAllStats, useAppDispatch, useAppSelector } from "@/hooks";
 
 export default function Trade() {
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const pairSelector = useAppSelector((state) => state.pairSelector);
   const pairsList = pairSelector.pairsList;
-
-
-
-
+  const [priceStat, setPriceStats] = useState<any>()
   // Set pair that was specified in query param
   useEffect(() => {
     if (pairsList.length > 0) {
@@ -46,6 +37,19 @@ export default function Trade() {
 
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
   }, [dispatch]);
+
+    useEffect(() => {
+    const fetchAndSetStats = async () => {
+      const priceStats = await fetchAllStats();
+      setPriceStats(priceStats);
+    };
+
+    fetchAndSetStats();
+
+    const interval = setInterval(fetchAndSetStats, 30000);
+
+    return () => clearInterval(interval);
+  }, []);
 
 
   return (
