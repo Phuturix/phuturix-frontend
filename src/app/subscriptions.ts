@@ -10,10 +10,13 @@ import * as adex from "alphadex-sdk-js";
 import { radixSlice, WalletData } from "./state/radixSlice";
 import { fetchBalances } from "./state/pairSelectorSlice";
 import { pairSelectorSlice } from "./state/pairSelectorSlice";
+import { orderBookSlice } from "./state/orderBookSlice";
 import { updateCandles } from "./state/priceChartSlice";
 import { updatePriceInfo } from "./state/priceInfoSlice";
+import { accountHistorySlice } from "./state/accountHistorySlice";
+import { orderInputSlice } from "./state/orderInputSlice";
 import { AppStore } from "./state/store";
-
+import { rewardSlice } from "./state/rewardSlice";
 
 export type RDT = ReturnType<typeof RadixDappToolkit>;
 
@@ -51,7 +54,17 @@ function setRdt(rdt: RDT) {
 let subs: Subscription[] = [];
 
 export function initializeSubscriptions(store: AppStore) {
-  let networkId = RadixNetwork.Stokenet;
+  let networkId;
+  switch (process.env.NEXT_PUBLIC_NETWORK!) {
+    case "mainnet":
+      networkId = RadixNetwork.Mainnet;
+      break;
+    case "stokenet":
+      networkId = RadixNetwork.Stokenet;
+      break;
+    default:
+      networkId = RadixNetwork.Stokenet;
+  }
   rdtInstance = RadixDappToolkit({
     dAppDefinitionAddress: process.env.NEXT_PUBLIC_DAPP_DEFINITION_ADDRESS!,
     networkId,
@@ -72,7 +85,19 @@ export function initializeSubscriptions(store: AppStore) {
     })
   );
   setRdt(rdtInstance);
-  let network = adex.ApiNetworkOptions.indexOf("stokenet");
+  // TODO: "black" on the light theme
+  rdtInstance.buttonApi.setTheme("white");
+  let network;
+  switch (process.env.NEXT_PUBLIC_NETWORK!) {
+    case "mainnet":
+      network = adex.ApiNetworkOptions.indexOf("mainnet");
+      break;
+    case "stokenet":
+      network = adex.ApiNetworkOptions.indexOf("stokenet");
+      break;
+    default:
+      network = adex.ApiNetworkOptions.indexOf("stokenet");
+  }
 
   adex.init(adex.ApiNetworkOptions[network]);
   subs.push(
@@ -82,9 +107,22 @@ export function initializeSubscriptions(store: AppStore) {
       );
 
       store.dispatch(pairSelectorSlice.actions.updateAdex(serializedState));
-      // store.dispatch(orderBookSlice.actions.updateAdex(serializedState));
+      store.dispatch(orderBookSlice.actions.updateAdex(serializedState));
       store.dispatch(updateCandles(serializedState.currentPairCandlesList));
       store.dispatch(updatePriceInfo(serializedState));
+      store.dispatch(accountHistorySlice.actions.updateAdex(serializedState));
+      store.dispatch(orderInputSlice.actions.updateAdex(serializedState));
+      store.dispatch(
+        rewardSlice.actions.updateTokensList(serializedState.tokensList)
+      );
+      store.dispatch(
+        rewardSlice.actions.updatePairsList(serializedState.pairsList)
+      );
+      store.dispatch(
+        orderBookSlice.actions.updateRecentTrades(
+          serializedState.currentPairTrades
+        )
+      );
     })
   );
 }

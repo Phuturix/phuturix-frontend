@@ -2,7 +2,7 @@ import * as adex from "alphadex-sdk-js";
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { getGatewayApiClientOrThrow, getRdt } from "../subscriptions";
-import { setQueryParam } from "../utils";
+import { setQueryParam, updateIconIfNeeded } from "../utils";
 
 export const AMOUNT_MAX_DECIMALS = adex.AMOUNT_MAX_DECIMALS;
 
@@ -16,6 +16,7 @@ export interface PairSelectorState {
   address: string;
   token1: TokenInfo;
   token2: TokenInfo;
+  pairsList: adex.PairInfo[];
 }
 
 interface SelectPairPayload {
@@ -36,6 +37,7 @@ const initialState: PairSelectorState = {
   address: "",
   token1: { ...initalTokenInfo },
   token2: { ...initalTokenInfo },
+  pairsList: [],
 };
 
 export const fetchBalances = createAsyncThunk<
@@ -54,28 +56,16 @@ export const fetchBalances = createAsyncThunk<
 
   const rdt = getRdt();
   const gatewayApiClient = getGatewayApiClientOrThrow();
-  //remove hardoced data
-  if (rdt) {
-    const t1= { 
-      address: "resource_rdx1t4upr78guuapv5ept7d7ptekk9mqhy605zgms33mcszen8l9fac8vf",
-      decimals: 5,
-      iconUrl:  "https://assets.instabridge.io/tokens/icons/xUSDC.png",
-      name : "Wrapped USDC",
-      symbol: 'USDC'
-    }
-    const t2 ={
-      address: "resource_rdx1tknxxxxxxxxxradxrdxxxxxxxxx009923554798xxxxxxxxxradxrd",
-      decimals: 8,
-      iconUrl: "https://assets.radixdlt.com/icons/icon-xrd-32x32.png",
-      name: "Radix",
-      symbol: 'RTD'
-    }
-    const tokens = [t1, t2];
+  if (rdt && state.radix.walletData.accounts.length > 0) {
+    const tokens = [state.pairSelector.token1, state.pairSelector.token2];
 
     for (let token of tokens) {
       // separate balance fetching try/catch for each token
       try {
-        let response = await gatewayApiClient.state.innerClient.entityFungibleResourceVaultPage(
+        let response;
+        if (token.address) {
+          response =
+            await gatewayApiClient.state.innerClient.entityFungibleResourceVaultPage(
               {
                 stateEntityFungibleResourceVaultsPageRequest: {
                   address: state.radix.selectedAccount?.address,
@@ -84,12 +74,13 @@ export const fetchBalances = createAsyncThunk<
                 },
               }
             );
-        // }
+        }
         // if there are no items in response, set the balance to 0
         const balance = parseFloat(response?.items[0]?.amount || "0");
-        dispatch(pairSelectorSlice.actions.setBalance({ balance: balance, token }));
+        console.log(balance, "balance");
+        dispatch(pairSelectorSlice.actions.setBalance({ balance, token }));
       } catch (error) {
-        // dispatch(pairSelectorSlice.actions.setBalance({ balance: 0, token }));
+        dispatch(pairSelectorSlice.actions.setBalance({ balance: 0, token }));
         throw new Error("Error getting data from Radix gateway");
       }
     }
@@ -113,8 +104,23 @@ export const pairSelectorSlice = createSlice({
       state.token1.decimals = adexState.currentPairInfo.token1MaxDecimals;
       state.token2.decimals = adexState.currentPairInfo.token2MaxDecimals;
 
+      // unpacking to avoid loosing balances info
+      state.token1 = updateIconIfNeeded({
+        ...state.token1,
+        ...adexState.currentPairInfo.token1,
+      });
+      state.token2 = updateIconIfNeeded({
+        ...state.token2,
+        ...adexState.currentPairInfo.token2,
+      });
+
       state.address = adexState.currentPairAddress;
       state.name = adexState.currentPairInfo.name;
+      state.pairsList = adexState.pairsList.map((pair) => {
+        pair.token1 = updateIconIfNeeded(pair.token1);
+        pair.token2 = updateIconIfNeeded(pair.token2);
+        return pair;
+      });
     },
     selectPair: (
       state: PairSelectorState,

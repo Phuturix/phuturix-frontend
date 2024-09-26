@@ -1,0 +1,241 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  img {
+    @apply !my-0;
+  }
+
+  p {
+    @apply !my-0;
+  }
+
+  input {
+    @apply !bg-base-200;
+  }
+
+  input:focus {
+    @apply !outline-none;
+  }
+
+  html {
+    font-family: "inter";
+    font-size: 15px;
+  }
+
+  @font-face {
+    font-family: "inter";
+    src: url("./fonts/Inter-Thin.ttf") format("truetype");
+    font-weight: 100;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "inter";
+    src: url("./fonts/Inter-ExtraLight.ttf") format("truetype");
+    font-weight: 200;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "inter";
+    src: url("./fonts/Inter-Light.ttf") format("truetype");
+    font-weight: 300;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "inter";
+    src: url("./fonts/Inter-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "inter";
+    src: url("./fonts/Inter-Medium.ttf") format("truetype");
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "inter";
+    src: url("./fonts/Inter-SemiBold.ttf") format("truetype");
+    font-weight: 600;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "inter";
+    src: url("./fonts/Inter-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "inter";
+    src: url("./fonts/Inter-ExtraBold.ttf") format("truetype");
+    font-weight: 800;
+    font-style: normal;
+  }
+}
+
+:root {
+  --radix-connect-button-height: 36px;
+  --radix-connect-button-width: 140px;
+}
+@media (max-width: 419px) {
+  :root {
+    --radix-connect-button-width: 36px;
+  }
+}
+
+/* remove up and down arrows on number input fields */
+
+/* For Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* For Chrome, Safari, and newer versions of Opera */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* For IE11 and Edge */
+input[type="number"]::-ms-clear {
+  display: none;
+}
+
+.btn-active {
+  @apply bg-secondary;
+}
+
+/* Use slightly darker base color for backgrounds by default */
+:root,
+[data-theme] {
+  background-color: oklch(var(--b2) / var(--tw-bg-opacity, 1));
+}
+
+/**
+ * GRID AREA CSS: Utilizes global CSS classes for grid areas.
+ * Justification: TailwindCSS lacks a readable method for implementing
+ * grid-template-areas. Therefore, all grid area-related styles are
+ * centralized in global CSS to maintain separation from
+ * component-specific styles.
+ */
+.grid-container {
+  display: grid;
+  grid-gap: 1px;
+  background-color: #d0d0d01a;
+  width: 100%;
+  height: 100%;
+}
+
+.pairSelector,
+.priceInfo,
+.orderBook,
+.orderInput,
+.priceChart,
+.tradeHistory {
+  background-color: #1a1c1e;
+}
+
+.pairSelector {
+  grid-area: pairSelector;
+}
+.priceInfo {
+  grid-area: priceInfo;
+}
+.orderBook {
+  grid-area: orderBook;
+}
+.orderInput {
+  grid-area: orderInput;
+}
+.priceChart {
+  grid-area: priceChart;
+}
+.tradeHistory {
+  grid-area: tradeHistory;
+}
+
+/* 3 column layout */
+@media (min-width: 1351px) {
+  .grid-container {
+    grid-template-columns: 300px auto 300px;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "pairSelector priceInfo    orderBook"
+      "orderInput   priceChart   orderBook"
+      "tradeHistory tradeHistory tradeHistory";
+  }
+}
+
+@media (min-width: 1026px) and (max-width: 1350px) {
+  .grid-container {
+    grid-template-columns: 260px auto 260px;
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+      "pairSelector priceInfo    orderBook"
+      "orderInput   priceChart   orderBook"
+      "tradeHistory tradeHistory tradeHistory";
+  }
+}
+
+/* 2 column layout */
+@media (min-width: 851px) and (max-width: 1025px) {
+  .grid-container {
+    grid-template-columns: 300px auto;
+    grid-template-areas:
+      "pairSelector priceInfo"
+      "orderInput   priceChart"
+      "orderBook    tradeHistory";
+  }
+}
+
+@media (min-width: 701px) and (max-width: 850px) {
+  .grid-container {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      "pairSelector pairSelector"
+      "priceInfo    priceInfo"
+      "priceChart   priceChart"
+      "orderInput   orderBook"
+      "tradeHistory tradeHistory";
+  }
+}
+
+/* 1 column layout */
+@media (max-width: 700px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "pairSelector"
+      "priceInfo"
+      "priceChart"
+      "orderInput"
+      "orderBook"
+      "tradeHistory";
+  }
+}
+
+/* Hacky fix to replace border with padding on accountHistory table */
+/* Needed to fix table hover state */
+.account-history table tr,
+.account-history table thead tr,
+.account-history table td {
+  border: 0;
+}
+.account-history table tr td:first-child,
+.account-history table thead tr th:first-child {
+  padding-left: 16px;
+}
+.account-history table tr td:last-child,
+.account-history table thead tr th:last-child {
+  padding-right: 16px;
+}

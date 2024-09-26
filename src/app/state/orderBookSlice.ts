@@ -1,7 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import * as adex from "alphadex-sdk-js";
 import { RootState } from "./store";
-import * as tailwindConfig from "../../../tailwind.config";
 
 
 export interface OrderBookRowProps {
@@ -50,7 +49,6 @@ export function toOrderBookRowProps(
 
   if (side === "sell") {
     adexRows.reverse();
-
   }
   let groupedArray;
   if (grouping > 0) {

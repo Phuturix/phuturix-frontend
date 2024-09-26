@@ -1,5 +1,5 @@
 import 'react';
-import { Logo } from './Logo';
+import { Logo } from '@/components/Logo';
 
 export function Footer() {
   return (

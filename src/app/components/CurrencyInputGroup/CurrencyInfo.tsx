@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/hooks';
-import { orderPerpSlice } from '@/state/orderPerpSlice';
+import { orderPerpSlice } from '@/state/orderBookSlice';
 import { store } from '@/state/store';
 import { truncateWithPrecision } from '@/utils';
 

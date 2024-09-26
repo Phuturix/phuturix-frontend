@@ -1,14 +1,20 @@
-import { useDispatch, useSelector } from 'react-redux';
-import type { TypedUseSelectorHook } from 'react-redux';
-import type { RootState, AppDispatch } from './state/store';
-import { useEffect, useMemo, useState } from 'react';
-
+import { useDispatch, useSelector } from "react-redux";
+import type { TypedUseSelectorHook } from "react-redux";
+import type { RootState, AppDispatch } from "./state/store";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  getLocalStoragePaginationValue,
+  setLocalStoragePaginationValue,
+} from "@/utils";
 
 // https://redux-toolkit.js.org/tutorials/typescript#define-typed-hooks
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 // A custom hook that returns the translation function
+export const useTranslations = () => {
+  
+};
 
 // Hook to fix hydration errors by delaying rendering until client-side mount
 export const useHydrationErrorFix = () => {
@@ -20,3 +26,4 @@ export const useHydrationErrorFix = () => {
 
   return isClient;
 };
+

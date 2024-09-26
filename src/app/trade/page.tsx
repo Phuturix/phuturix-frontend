@@ -3,30 +3,35 @@
 import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 
-import { OrderInput } from "@/components/OrderInput";
-import { PairSelector } from "@/components/PairSelector";
-import { PriceInfo } from "@/components/PriceInfo";
-import { fetchBalances, selectPair } from "@/state/pairSelectorSlice";
-import { useAppDispatch, useAppSelector } from "@/hooks";
+import { OrderInput } from "../components/OrderInput";
+import { PairSelector } from "../components/PairSelector";
+import { PriceInfo } from "../components/PriceInfo";
+import { fetchBalances, selectPair } from "../state/pairSelectorSlice";
+import { useAppDispatch, useAppSelector } from "../hooks";
 import {
   fetchAccountHistory,
   fetchAccountHistoryAllPairs,
-} from "@/state/accountHistorySlice";
+} from "../state/accountHistorySlice";
 
 
 export default function Trade() {
   const searchParams = useSearchParams();
   const dispatch = useAppDispatch();
   const pairSelector = useAppSelector((state) => state.pairSelector);
+  const pairName = pairSelector.name;
   const pairsList = pairSelector.pairsList;
   const state = useAppSelector((state) => state);
 
+  console.log(state, "state");
 
   const hideOtherPairs = useAppSelector(
     (state) => state.accountHistory.hideOtherPairs
   );
 
-
+  // Detect changes in selected pair and adjust pagetitle
+  useEffect(() => {
+    document.title = pairName ? `Phutirix • ${pairName.toUpperCase()}` : "Phutirix";
+  }, [pairName]);
 
   // Set pair that was specified in query param
   useEffect(() => {
@@ -79,8 +84,15 @@ export default function Trade() {
           <div className="priceInfo">
             <PriceInfo />
           </div>
+          <div className="orderBook max-[850px]:p-5 max-[700px]:p-0 ">
+            {/* <OrderBook /> */}
+          </div>
           <div className="orderInput max-[850px]:p-5 max-[700px]:p-0 ">
             <OrderInput />
+          </div>
+ 
+          <div className="tradeHistory max-w-[100%] w-full overflow-x-auto scrollbar-thin">
+            {/* <AccountHistory /> */}
           </div>
         </div>
       </div>
