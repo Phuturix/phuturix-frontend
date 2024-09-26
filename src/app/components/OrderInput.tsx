@@ -34,13 +34,10 @@ function EstimatedTotalOrQuantity() {
 
   return (
     <div className="flex content-between w-full text-white pb-3 px-2">
-  
           <p className="grow text-left">Total:</p>
           <p className="">
             ~ {totalValue} {symbol}
           </p>
-        
-  
     </div>
   );
 }

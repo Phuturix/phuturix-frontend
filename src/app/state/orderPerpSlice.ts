@@ -31,6 +31,9 @@ export const orderPerpSlice = createSlice({
         updateOrderType: (state, action: PayloadAction<OrderPerpType>) => {
             state.type = action.payload;
         },
+        updateValue: (state, action: PayloadAction<number>) => {
+            state.value = action.payload;
+        },
     },
 });
 

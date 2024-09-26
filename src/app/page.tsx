@@ -15,8 +15,7 @@ export default function Trade() {
   const dispatch = useAppDispatch();
   const pairSelector = useAppSelector((state) => state.pairSelector);
   const pairsList = pairSelector.pairsList;
-  const [priceStat, setPriceStats] = useState<number[]>([0.012]);
-  // Update orders of selected pair every 5 seconds
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       dispatch(fetchBalances());
@@ -48,24 +47,19 @@ export default function Trade() {
 
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
   }, [dispatch]);
-  useEffect(()=> {
-    for (let i = 0; i < 5; i++) {
-      const number = randomIntFromInterval(150, 4) /100000;
-      setPriceStats([...priceStat, number])
-    }
-  })
+
 
     useEffect(() => {
 
     const handleUpdate =  () => {
-      const randomIndex = randomIntFromInterval(0, priceStat.length -1);
-       store.dispatch(orderPerpSlice.actions.updatePrice(randomIndex));
+      const randomPrice = randomIntFromInterval(150, 4) /10000
+       store.dispatch(orderPerpSlice.actions.updatePrice(randomPrice));
     };
 
     handleUpdate();
 
 
-    const interval = setInterval(handleUpdate, 30000);
+    const interval = setInterval(handleUpdate, 50000);
 
     return () => clearInterval(interval);
   }, []);
