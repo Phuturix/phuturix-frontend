@@ -33,7 +33,6 @@ export async function submitOrder() {
 
 export default function SubmitButton() {
   const { type } = useAppSelector((state: { perp: any }) => state.perp);
-  const sendTransaction = useSendTransaction();
   const { isConnected } = useAppSelector(
     (state: { radix: { isConnected: boolean } }) => state.radix
   );

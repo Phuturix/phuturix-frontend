@@ -7,6 +7,8 @@ export interface PriceInfoState {
     margin?: number;
     totalPosValue?: number
     type: Side;
+    isLoading?: boolean;
+    status?: string
 }
 
 const initialState: PriceInfoState = {
@@ -32,6 +34,9 @@ export const orderPerpSlice = createSlice({
         },
         updateTotalPosition: (state, action: PayloadAction<number>) => {
             state.totalPosValue = action.payload;
+        },
+        updateStatusLoading: (state, action: PayloadAction<boolean>) => {
+            state.isLoading = action.payload;
         },
     },
 });
