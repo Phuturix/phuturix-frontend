@@ -2,6 +2,7 @@ import { useAppSelector } from '@/hooks';
 
 export default function SubmitButton() {
   const { type } = useAppSelector((state: { perp: any }) => state.perp);
+    const sendTransaction = useSendTransaction();
   const { isConnected } = useAppSelector(
     (state: { radix: { isConnected: boolean } }) => state.radix
   );
@@ -19,24 +20,35 @@ export default function SubmitButton() {
         }
 
         e.stopPropagation();
-        console.log('submit')
-        // DToads.promise(
-        //   async () => {
-        //     // const action = await dispatch(submitOrder());
-        //     // if (!action.type.endsWith('fulfilled')) {
-        //     //   // Transaction was not fulfilled (e.g. userRejected or userCanceled)
-        //     //   throw new Error('Transaction failed due to user action.');
-        //     // } else if ((action.payload as any)?.status === 'ERROR') {
-        //     //   // Transaction was fulfilled but failed (e.g. submitted onchain failure)
-        //     //   throw new Error('Transaction failed onledger');
-        //     // }
-        //     // dispatch(orderInputSlice.actions.resetUserInput());
-        //     // dispatch(fetchBalances());
-        //   },
-        //   'submitting order', // Loading message
-        //   'order submitted', // success message
-        //   'failed to submit order' // error message
-        // );
+       const handleClaimToken = async () => {
+    console.log("selectedAccount:", selectedAccount);
+    if (!selectedAccount) {
+      alert("Please select an account first.");
+      return;
+    }
+    setLoading(true);
+    const accountAddress = selectedAccount;
+
+    const manifest = `
+      CALL_METHOD
+        Address("${componentAddress}")
+        "free_token"
+        ;
+      CALL_METHOD
+        Address("${accountAddress}")
+        "deposit_batch"
+        Expression("ENTIRE_WORKTOP")
+        ;
+    `;
+    console.log("manifest:", manifest);
+
+    const result = await sendTransaction(manifest).finally(() =>
+      setLoading(false)
+    );
+    console.log("transaction receipt:", result?.receipt);
+  };
+
+
       }}
     >
       <div className="flex justify-center items-center">
@@ -47,3 +59,5 @@ export default function SubmitButton() {
     </button>
   );
 }
+
+
