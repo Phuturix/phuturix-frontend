@@ -28,21 +28,19 @@ function EstimatedTotalOrQuantity() {
   const { value, leverage } = useAppSelector(state => state.perp);
   const [totalValue, setTotalValue] = useState<number>();
   useEffect(() => {
-    console.log(value, leverage, 'value, leverage')
     const val = truncateWithPrecision(value * leverage, 2);
     setTotalValue(val);
   }, [value, leverage]);
 
   return (
     <div className="flex content-between w-full text-white pb-3 px-2">
-      {totalValue && (
-        <>
+  
           <p className="grow text-left">Total:</p>
           <p className="">
             ~ {totalValue} {symbol}
           </p>
-        </>
-      )}
+        
+  
     </div>
   );
 }

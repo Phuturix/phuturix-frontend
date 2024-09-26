@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Label from '../Label';
 import { store } from '@/state/store';
 import { orderPerpSlice } from '@/state/OrderPerpSlice';
@@ -12,12 +11,11 @@ export default function PrecRangeSlider() {
   return (
     <div className="py-8">
       <div className="flex justify-between items-center text-xs py-2">
-        {' '}
         <Label label="Leverage" /> <span>{leverage}</span>
       </div>
       <input
         type="range"
-        min={0}
+        min={1}
         max="10"
         value={leverage}
         className="range range-xs range-info"

@@ -19,6 +19,7 @@ export default function SubmitButton() {
         }
 
         e.stopPropagation();
+        console.log('submit')
         // DToads.promise(
         //   async () => {
         //     // const action = await dispatch(submitOrder());
