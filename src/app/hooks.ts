@@ -7,10 +7,6 @@ import {  useEffect, useState } from "react";
 export const useAppDispatch: () => AppDispatch = useDispatch;
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-// A custom hook that returns the translation function
-export const useTranslations = () => {
-  
-};
 
 // Hook to fix hydration errors by delaying rendering until client-side mount
 export const useHydrationErrorFix = () => {
