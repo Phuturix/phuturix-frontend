@@ -303,10 +303,10 @@ export function calculateFeeToOpenPosition(price: number, quantity: number, fee:
 }
 
 export function calculateLiquidationPrice(price: number, leverage: number, side: Side, maintenance_margin: number) {
-  if (side === Side.Long) {
-    price / ((1 + (1 / leverage) + maintenance_margin))
+  if (side === Side.LONG) {
+    return price / ((1 + (1 / leverage) + maintenance_margin))
   } else {
-    price / ((1 - (1 / leverage) + maintenance_margin))
+    return price / ((1 - (1 / leverage) + maintenance_margin))
 
   }
 //Liquidation Price = 3500 / (1 + ((1 / 10) + 0.0015) - 0.00575)
