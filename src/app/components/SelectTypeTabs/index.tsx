@@ -22,9 +22,9 @@ function SelectTypeTab({ orderSide }: OrderSideTabProps): JSX.Element | null {
   return (
     <div
       className={`w-1/2 flex justify-center items-center cursor-pointer hover:opacity-100 ${
-        type === 'LONG' && orderSide === 'LONG'
+        type === 'Long' && orderSide === 'LONG'
           ? 'bg-radix-green text-content-dark'
-          : type === 'SHORT' && orderSide === 'SHORT'
+          : type === 'Short' && orderSide === 'SHORT'
           ? 'bg-radix-red text-white'
           : 'opacity-50'
       }`}

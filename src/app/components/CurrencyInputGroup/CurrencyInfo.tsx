@@ -7,7 +7,7 @@ interface CurrencyInfoProps {
   disabled?: boolean;
   title: string;
   currency: string;
-  updateValue?: (value: number) => void;
+  updateMargin?: (value: number) => void;
   setPercentageValue?: (percentage: number, isXRD: boolean) => void;
 }
 
@@ -20,7 +20,7 @@ export default function CurrencyInfo({
     const balance = useAppSelector(state => state.pairSelector.token1.balance);
 
   const handleUpdate = () => {
-    store.dispatch(orderPerpSlice.actions.updateValue(balance || 0));
+    store.dispatch(orderPerpSlice.actions.updateMargin(balance || 0));
   };
   return disabled ? (
     <></>

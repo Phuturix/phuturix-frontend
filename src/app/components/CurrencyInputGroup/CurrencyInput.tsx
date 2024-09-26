@@ -14,9 +14,9 @@ export default function CurrencyInput({
 }: CurrencyInputProps): JSX.Element | null {
   const { decimalSeparator } = getLocaleSeparators();
   const scale = 8;
-  const value = useAppSelector(state => state.perp.value);
+  const margin = useAppSelector(state => state.perp.margin);
   const handleUpdate = (value: number) => {
-    store.dispatch(orderPerpSlice.actions.updateValue(value));
+    store.dispatch(orderPerpSlice.actions.updateMargin(value));
   };
 
   const max = useAppSelector(state => state.pairSelector.token1.balance) || 0;
@@ -47,7 +47,7 @@ export default function CurrencyInput({
       <div className="h-[40px] w-full content-between bg-base-200 flex rounded-lg hover:outline hover:outline-1 hover:outline-white/50">
         <input
           type="text"
-          value={value}
+          value={margin}
           onChange={handleChange}
           className="text-sm grow w-full text-right pr-2 bg-base-200 rounded-lg hover:outline-none"
         />
