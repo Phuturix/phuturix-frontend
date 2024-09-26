@@ -4,8 +4,6 @@ import { displayNumber } from '@/utils';
 
 export function PairSelector() {
   const price = useAppSelector(state => state.perp.price);
-    console.log(price, 'price')
-
   const token = 'XTR';
 
   return (
