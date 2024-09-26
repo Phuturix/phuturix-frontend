@@ -8,8 +8,8 @@ export enum TokenId {
 }
 
 export enum Side {
-    Long = "Long",
-    Short = "Short",
+    LONG = "LONG",
+    SHORT = "SHORT",
 }
 
 export enum Tab {

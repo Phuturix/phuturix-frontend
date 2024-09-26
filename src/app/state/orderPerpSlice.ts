@@ -11,7 +11,7 @@ export interface PriceInfoState {
 
 const initialState: PriceInfoState = {
     leverage: 1,
-    type: Side.Long,
+    type: Side.LONG,
 };
 
 export const orderPerpSlice = createSlice({
