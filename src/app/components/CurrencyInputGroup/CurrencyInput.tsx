@@ -19,7 +19,7 @@ export default function CurrencyInput({
     store.dispatch(orderPerpSlice.actions.updateValue(value));
   };
 
-  const max = useAppSelector(state => state.pairSelector.token1.balance);
+  const max = useAppSelector(state => state.pairSelector.token1.balance) || 0;
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     let { value } = e.target;
     value = value.replace(/,/g, decimalSeparator).replace(/-/g, '');

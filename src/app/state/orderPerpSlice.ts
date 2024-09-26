@@ -7,14 +7,12 @@ export enum OrderPerpType {
 export interface PriceInfoState {
     leverage: number;
     value: number;
-    balance: number;
     type: OrderPerpType;
 }
 
 const initialState: PriceInfoState = {
-    leverage: 0,
+    leverage: 1,
     value: 0,
-    balance: 10,
     type: OrderPerpType.LONG,
 };
 

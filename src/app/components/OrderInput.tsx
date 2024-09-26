@@ -28,9 +28,10 @@ function EstimatedTotalOrQuantity() {
   const { value, leverage } = useAppSelector(state => state.perp);
   const [totalValue, setTotalValue] = useState<number>();
   useEffect(() => {
-    const val = truncateWithPrecision(value * (1 + leverage), 2);
+    console.log(value, leverage, 'value, leverage')
+    const val = truncateWithPrecision(value * leverage, 2);
     setTotalValue(val);
-  }, []);
+  }, [value, leverage]);
 
   return (
     <div className="flex content-between w-full text-white pb-3 px-2">
