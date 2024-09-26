@@ -12,7 +12,6 @@ import { pairSelectorSlice } from "./state/pairSelectorSlice";
 import { orderBookSlice } from "./state/orderBookSlice";
 import { updatePriceInfo } from "./state/priceInfoSlice";
 import { AppStore } from "./state/store";
-import { rewardSlice } from "./state/rewardSlice";
 
 export type RDT = ReturnType<typeof RadixDappToolkit>;
 
