@@ -12,8 +12,6 @@ import { initializeSubscriptions, unsubscribeAll } from "./subscriptions";
 import { store } from "./state/store";
 
 
-import { useAppDispatch } from "@/hooks";
-
 export default function RootLayout({
   children,
 }: {

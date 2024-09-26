@@ -6,13 +6,15 @@ export enum OrderPerpType {
 }
 export interface PriceInfoState {
     leverage: number;
+    price: number;
     value: number;
     type: OrderPerpType;
 }
 
 const initialState: PriceInfoState = {
     leverage: 1,
-    value: 0,
+    price: 0,
+    value:0,
     type: OrderPerpType.LONG,
 };
 
@@ -20,8 +22,8 @@ export const orderPerpSlice = createSlice({
     name: 'orderPerp',
     initialState,
     reducers: {
-        updateValue: (state, action: PayloadAction<number>) => {
-            state.value = action.payload;
+        updatePrice: (state, action: PayloadAction<number>) => {
+            state.price = action.payload;
         },
         updateLeverage: (state, action: PayloadAction<number>) => {
             state.leverage = action.payload;
@@ -33,6 +35,5 @@ export const orderPerpSlice = createSlice({
 });
 
 // Get last price
-export const selectLastPrice = (state: RootState) => state.priceInfo.lastPrice;
 
-export const { updateValue, updateLeverage } = orderPerpSlice.actions;
+export const { updatePrice, updateLeverage } = orderPerpSlice.actions;

@@ -1,13 +1,11 @@
 import React from 'react';
-import { displayNumber } from '../utils';
 import { useAppSelector } from '../hooks';
+import { displayNumber } from '@/utils';
 
 export function PairSelector() {
-  //TODO upadte
-  const priceInfo = 1.2
-  const noDigits = 4;
-  const fixedDecimals = 3;
-  const lastPrice = displayNumber(priceInfo, noDigits, fixedDecimals);
+  const price = useAppSelector(state => state.perp.price);
+    console.log(price, 'price')
+
   const token = 'XTR';
 
   return (
@@ -24,7 +22,7 @@ export function PairSelector() {
           <span className="opacity-90 text-base">{`${token}-PERP`}</span>
         </div>
         <div className="flex flex-col text-sm text-right font-sans">
-          <span className="opacity-90 text-base">{lastPrice}</span>
+          <span className="opacity-90 text-base">{price}</span>
         </div>
       </div>
     </div>

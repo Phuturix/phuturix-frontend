@@ -44,6 +44,9 @@ dependencies:
   alphadex-sdk-js:
     specifier: ^0.12.15
     version: 0.12.15
+  axios:
+    specifier: ^1.7.7
+    version: 1.7.7
   big.js:
     specifier: ^6.2.1
     version: 6.2.1
