@@ -287,3 +287,38 @@ export function shortenWalletAddress(address: string): string {
   const lastPart = address.slice(-20);
   return `${firstPart}...${lastPart}`;
 }
+
+
+
+
+import { Side } from "@/lib/types";
+
+export function randomIntFromInterval(min: number, max: number) { // min and max included 
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+
+export function calculateFeeToOpenPosition(price: number, quantity: number, fee: number) {
+  return price * quantity * fee
+}
+
+export function calculateLiquidationPrice(price: number, leverage: number, side: Side, maintenance_margin: number) {
+  if (side === Side.LONG) {
+    return price / ((1 + (1 / leverage) + maintenance_margin))
+  } else {
+    return price / ((1 - (1 / leverage) + maintenance_margin))
+
+  }
+//Liquidation Price = 3500 / (1 + ((1 / 10) + 0.0015) - 0.00575)
+  
+  // Liquidation Price = Entry_Price / (1 + initMargin - maintenanceMargin)
+  // price / (1 + 1 / leverage)
+// Calculate liquidation distance in percentage = 100 / Leverage Ratio(100 / 65 = 1.54 %)
+
+// Calculate the liquidation distance in price = Current Asset Price x Distance In Percentage($233 x 0.0154 % = $3.60)
+
+// Calculate the liquidation price = Current Asset Price – Liquidation Price Distance($233 – $3.60 = $229.40)
+
+
+
+}

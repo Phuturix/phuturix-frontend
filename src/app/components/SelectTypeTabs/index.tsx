@@ -1,10 +1,11 @@
 import { useAppDispatch, useAppSelector } from '@/hooks';
-import { orderPerpSlice, OrderPerpType } from '@/state/orderPerpSlice';
+import { Side } from '@/lib/types';
+import { orderPerpSlice } from '@/state/OrderPerpSlice';
 
 export default function SelectTypeTabs() {
   return (
     <div className="h-[40px] flex w-full">
-      {[OrderPerpType.LONG, OrderPerpType.SHORT].map((currentSide, indx) => (
+      {[Side.LONG, Side.SHORT].map((currentSide, indx) => (
         <SelectTypeTab orderSide={currentSide} key={indx} />
       ))}
     </div>
@@ -12,7 +13,7 @@ export default function SelectTypeTabs() {
 }
 
 interface OrderSideTabProps {
-  orderSide: OrderPerpType;
+  orderSide: Side;
 }
 
 function SelectTypeTab({ orderSide }: OrderSideTabProps): JSX.Element | null {

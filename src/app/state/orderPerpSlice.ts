@@ -1,21 +1,17 @@
+import { Side } from '@/lib/types';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { RootState } from './store';
-export enum OrderPerpType {
-    LONG = 'LONG',
-    SHORT = 'SHORT',
-}
+
 export interface PriceInfoState {
     leverage: number;
-    price: number;
-    value: number;
-    type: OrderPerpType;
+    price?: number;
+    margin?: number;
+    totalPosValue?: number
+    type: Side;
 }
 
 const initialState: PriceInfoState = {
     leverage: 1,
-    price: 0,
-    value:0,
-    type: OrderPerpType.LONG,
+    type: Side.LONG,
 };
 
 export const orderPerpSlice = createSlice({
@@ -28,11 +24,14 @@ export const orderPerpSlice = createSlice({
         updateLeverage: (state, action: PayloadAction<number>) => {
             state.leverage = action.payload;
         },
-        updateOrderType: (state, action: PayloadAction<OrderPerpType>) => {
+        updateOrderType: (state, action: PayloadAction<Side>) => {
             state.type = action.payload;
         },
-        updateValue: (state, action: PayloadAction<number>) => {
-            state.value = action.payload;
+        updateMargin: (state, action: PayloadAction<number>) => {
+            state.margin = action.payload;
+        },
+        updateTotalPosition: (state, action: PayloadAction<number>) => {
+            state.totalPosValue = action.payload;
         },
     },
 });

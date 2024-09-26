@@ -64,6 +64,7 @@ export function initializeSubscriptions(store: AppStore) {
     networkId,
     featureFlags: ["ExperimentalMobileSupport"],
   });
+  console.log(rdtInstance, 'rdtInstance')
   gatewayApiClient = GatewayApiClient.initialize(
     rdtInstance.gatewayApi.clientConfig
   );
@@ -74,7 +75,6 @@ export function initializeSubscriptions(store: AppStore) {
     rdtInstance.walletApi.walletData$.subscribe((walletData: WalletData) => {
       const data: WalletData = JSON.parse(JSON.stringify(walletData));
       store.dispatch(radixSlice.actions.setWalletData(data));
-      // TODO: can we subscribe to balances from somewhere?
       store.dispatch(fetchBalances());
     })
   );

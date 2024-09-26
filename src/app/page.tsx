@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { OrderInput } from "@/components/OrderInput";
 import { PairSelector } from "@/components/PairSelector";
 import { fetchBalances, selectPair } from "@/state/pairSelectorSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import { randomIntFromInterval } from "./utils/index";
+import { randomIntFromInterval } from "@/utils";
 import { store } from "./state/store";
 import { orderPerpSlice } from "./state/OrderPerpSlice";
 
@@ -57,10 +57,7 @@ export default function Trade() {
     };
 
     handleUpdate();
-
-
     const interval = setInterval(handleUpdate, 50000);
-
     return () => clearInterval(interval);
   }, []);
 

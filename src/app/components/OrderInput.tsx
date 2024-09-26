@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-
-import { truncateWithPrecision } from '../utils';
+import { truncateWithPrecision, calculateLiquidationPrice } from '@/utils';
 import SelectTypeTabs from './SelectTypeTabs';
 import { CurrencyInputGroup } from './CurrencyInputGroup';
 import PrecRangeSlider from './PrecRangeSlider';
@@ -13,7 +12,7 @@ export function OrderInput() {
       <SelectTypeTabs />
       <div className="m-auto my-0 h-[570px] w-full">
         <div className="bg-base-100 px-5 pb-5 rounded-b">
-          <CurrencyInputGroup label="Trade Size" />
+          <CurrencyInputGroup label="Margin" />
           <PrecRangeSlider />
         </div>
         <SubmitButton />
@@ -25,19 +24,36 @@ export function OrderInput() {
 
 function EstimatedTotalOrQuantity() {
   const symbol = 'XTR';
-  const { value, leverage } = useAppSelector(state => state.perp);
+  const { margin, leverage, price, type, } = useAppSelector(state => state.perp);
   const [totalValue, setTotalValue] = useState<number>();
+  const [liquidPrice, setLiquidPrice] = useState<number>();
+
   useEffect(() => {
-    const val = truncateWithPrecision(value * leverage, 2);
-    setTotalValue(val);
-  }, [value, leverage]);
+    const totalValue = truncateWithPrecision(margin || 0 * leverage, 2);
+    setTotalValue(totalValue);
+    
+    if(price) {
+          const liquid_price = calculateLiquidationPrice(price, leverage, type, 0.0015)
+         setLiquidPrice(liquid_price)
+
+    }  }, [leverage]);
+
+  
 
   return (
-    <div className="flex content-between w-full text-white pb-3 px-2">
+    <div>
+      <div className="flex content-between w-full text-white pb-3 px-2">
           <p className="grow text-left">Total:</p>
           <p className="">
             ~ {totalValue} {symbol}
           </p>
+    </div>
+     <div className="flex content-between w-full text-white pb-3 px-2">
+          <p className="grow text-left">liquidation Price:</p>
+          <p className="">
+            ~ {liquidPrice} USD
+          </p>
+    </div>
     </div>
   );
 }
