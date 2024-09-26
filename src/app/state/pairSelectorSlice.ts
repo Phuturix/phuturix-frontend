@@ -2,7 +2,7 @@ import * as adex from "alphadex-sdk-js";
 import { PayloadAction, createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "./store";
 import { getGatewayApiClientOrThrow, getRdt } from "../subscriptions";
-import { setQueryParam, updateIconIfNeeded } from "../utils";
+import { updateIconIfNeeded } from "../utils";
 
 export const AMOUNT_MAX_DECIMALS = adex.AMOUNT_MAX_DECIMALS;
 
@@ -77,7 +77,6 @@ export const fetchBalances = createAsyncThunk<
         }
         // if there are no items in response, set the balance to 0
         const balance = parseFloat(response?.items[0]?.amount || "0");
-        console.log(balance, "balance");
         dispatch(pairSelectorSlice.actions.setBalance({ balance, token }));
       } catch (error) {
         dispatch(pairSelectorSlice.actions.setBalance({ balance: 0, token }));
@@ -130,7 +129,6 @@ export const pairSelectorSlice = createSlice({
       adex.clientState.currentPairAddress = pairAddress;
       if (pairName) {
         state.name = pairName; // Prevent empty pairname during loading
-        setQueryParam("pair", formatPairName(pairName));
       }
     },
 

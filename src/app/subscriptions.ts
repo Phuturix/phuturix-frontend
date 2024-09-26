@@ -10,10 +10,7 @@ import { radixSlice, WalletData } from "./state/radixSlice";
 import { fetchBalances } from "./state/pairSelectorSlice";
 import { pairSelectorSlice } from "./state/pairSelectorSlice";
 import { orderBookSlice } from "./state/orderBookSlice";
-import { updateCandles } from "./state/priceChartSlice";
 import { updatePriceInfo } from "./state/priceInfoSlice";
-import { accountHistorySlice } from "./state/accountHistorySlice";
-import { orderInputSlice } from "./state/orderInputSlice";
 import { AppStore } from "./state/store";
 import { rewardSlice } from "./state/rewardSlice";
 
@@ -107,10 +104,7 @@ export function initializeSubscriptions(store: AppStore) {
 
       store.dispatch(pairSelectorSlice.actions.updateAdex(serializedState));
       store.dispatch(orderBookSlice.actions.updateAdex(serializedState));
-      store.dispatch(updateCandles(serializedState.currentPairCandlesList));
       store.dispatch(updatePriceInfo(serializedState));
-      store.dispatch(accountHistorySlice.actions.updateAdex(serializedState));
-      store.dispatch(orderInputSlice.actions.updateAdex(serializedState));
       store.dispatch(
         rewardSlice.actions.updateTokensList(serializedState.tokensList)
       );
